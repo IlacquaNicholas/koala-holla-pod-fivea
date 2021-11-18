@@ -1,6 +1,5 @@
-const { Router } = require('express');
 const express = require('express');
-const koalaRouter = express.Router();
+const router = express.Router();
 
 // DB CONNECTION
 const pg = require('pg');
@@ -24,6 +23,20 @@ pool.on('error', (error) => {
 });
 
 // GET
+router.get('/', (req, res) => {
+    console.log('GET /koalas');
+    const sqlText = 'SELECT * FROM koalasNew;';
+    pool.query(sqlText)
+      .then((dbResult) => {
+        console.log(`${dbResult.rows.length} rows to send.`)
+        res.send(dbResult.rows);
+      })
+      .catch((dbErr) => {
+        console.error(dbErr);
+        res.sendStatus(500);
+      });
+  });
+
 
 
 // POST
@@ -60,4 +73,4 @@ router.post('/', (req, res) => {
 
 // DELETE
 
-module.exports = koalaRouter;
+module.exports = router;
