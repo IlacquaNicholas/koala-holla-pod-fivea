@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     `;
     const sqlValues = [
       newKoala.name,
-      newKoala.age,  //not sure 
+      newKoala.age,
       newKoala.gender,
       newKoala.readyForTransfer,
       newKoala.notes
@@ -59,5 +59,6 @@ router.post('/', (req, res) => {
 
 
 // DELETE
+// I'm starting yay
 
 module.exports = koalaRouter;
