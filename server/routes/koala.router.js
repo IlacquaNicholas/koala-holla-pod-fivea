@@ -1,3 +1,4 @@
+const { Router } = require('express');
 const express = require('express');
 const koalaRouter = express.Router();
 
@@ -26,7 +27,32 @@ pool.on('error', (error) => {
 
 
 // POST
-
+router.post('/', (req, res) => {
+    console.log('POST /koalas');
+    console.log('req.body:', req.body);
+    const newKoala = req.body;
+    const sqlText = `
+      INSERT INTO "KoalasNew"
+      ("name", "age", "gender", "readyForTransfer", "notes")
+      VALUES
+        ($1, $2, $3, $4, $5);
+    `;
+    // const sqlValues = [
+    //   newKoala.name,
+    //   newKoala.artist,  //not sure 
+    //   newKoala.track,
+    //   newKoala.published
+    // ];
+    pool.query(sqlText, sqlValues)
+      .then((dbResult) => {
+        console.log('\tINSERT succeeded.');
+        res.sendStatus(201);
+      })
+      .catch((dbErr) => {
+        console.error(dbErr);
+        res.sendStatus(500);
+      });
+  });
 
 // PUT
 
