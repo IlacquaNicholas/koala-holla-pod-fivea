@@ -52,3 +52,19 @@ Upon completion of the project you'll need to provide not only the source (via G
 Your final product may look something like this:
 
 ![sample](sample.png)
+
+
+
+Every 45 min take at least a 5 min break
+Justin will share screen and we'll collaborate that way
+
+
+Step 1
+    xCreate the DB (koala DB)
+    xCreate koala table
+    Add current koalas
+Step 2
+    Get server up and running
+Step 3
+    profit. 
+
