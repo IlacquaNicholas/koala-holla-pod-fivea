@@ -6,8 +6,23 @@ $( document ).ready( function(){
   setupClickListeners()
   // load existing koalas on page load
   getKoalas();
+  // Deleting a koala
+  $('#viewKoalas').on('click', '.delete-btn', deleteKoala);
 
 }); // end doc ready
+
+// Added a deleteKoala function
+function deleteKoala() {
+  const koalaIdToDelete = $(this).data('id');
+  $.ajax({
+    type: 'DELETE',
+    url: `/koalas/${koalaIdToDelete}`
+  }).then((response) => {
+    console.log(response);
+    getKoalas();
+  })
+};
+
 
 function setupClickListeners() {
   $( '#addButton' ).on( 'click', function(){
@@ -23,14 +38,14 @@ function setupClickListeners() {
       notes: $('#notesIn').val(),
     };
     // call saveKoala with the new obejct
-    saveKoala( koalaToSend );  
-  }); 
+    saveKoala( koalaToSend );
+  });
 }
 
 function getKoalas(){
   console.log( 'in getKoalas' );
   // ajax call to server to get koalas
-  
+
 } // end getKoalas
 
 function saveKoala( newKoala ){
@@ -50,5 +65,5 @@ function saveKoala( newKoala ){
   getKoalas();
   }).catch((error) => {
     console.log('bruh, fix the error!', error);
-  }); 
+  });
 };
