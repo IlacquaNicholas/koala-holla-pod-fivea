@@ -52,3 +52,26 @@ function saveKoala( newKoala ){
     console.log('bruh, fix the error!', error);
   }); 
 };
+
+function updateKoala() {
+  //This koalaID will need some HTML and click listener love
+  const koalaID = $(this).data('id');
+  const koalaUpdate = {
+    name: $('#nameIn').val(),
+    age: $('#ageIn').val(),
+    gender: $('#genderIn').val(),
+    readyForTransfer: $('#readyForTransferIn').val(),
+    notes: $('#notesIn').val(),
+  };
+
+  $.ajax({
+    type: 'PUT',
+    url: `/koalas/${koalaID}`,
+    data: koalaUpdate
+  }).then((res) => {
+    console.log('database supposedly updated');
+    getKoalas();
+  }).catch((error) => {
+    console.log('database did not do the thing right');
+  });
+};

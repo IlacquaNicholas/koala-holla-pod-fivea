@@ -56,7 +56,47 @@ router.post('/', (req, res) => {
   });
 
 // PUT
+router.put('/:id', (req, res) => {
+  //log that incoming data
+  console.log(req.params);
+  console.log(req.body);
+  //pack it into variables
+  const KoalaID = req.params;
+  const koala = req.body;
+  //DO I NEED to save each req.body.X as a separate variable?
 
+  //prep the sql stuff for pool.query
+  const sqlText = `
+    UPDATE "koalas"
+      SET 
+        "NAME" = $1,
+        "AGE" = $2,
+        "GENDER" = $3,
+        "READY FOR TRANSFER" = $4,
+        "NOTES" = $5
+      WHERE
+        "id" = $6
+  `;
+  //Or can they be called as object values directly here?
+  const sqlValues = [
+    koala.name,
+    koala.age,
+    koala.gender,
+    koala.readyForTransfer,
+    koala.notes,
+    KoalaID
+  ];
+  
+  pool.query(sqlText, sqlValues)
+    .then((dbResult) => {
+      console.log(dbResult);
+      res.sendStatus(200);
+    })
+    .catch((dbErr) => {
+      console.error(dbErr);
+      res.sendStatus(500);
+    })
+});
 
 // DELETE
 
