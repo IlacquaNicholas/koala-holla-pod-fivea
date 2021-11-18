@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     `;
     const sqlValues = [
       newKoala.name,
-      newKoala.age,  //not sure 
+      newKoala.age,
       newKoala.gender,
       newKoala.readyForTransfer,
       newKoala.notes
@@ -98,6 +98,27 @@ router.put('/:id', (req, res) => {
     })
 });
 
-// DELETE
+// DELETE - COMPLETED
+// I'm starting yay
+router.delete('/:id', (req, res) => {
+  console.log('DELETE /koalas/:id');
+  console.log('req.params:', req.params);
+  const koalaIdToDelete = req.params.id;
+  const sqlText = `
+    DELETE FROM "KoalasNew"
+      WHERE "id"=$1;
+  `;
+  const sqlValues = [koalaIdToDelete];
+
+  pool.query(sqlText, sqlValues)
+    .then((dbResult) => {
+      res.sendStatus(200);
+    })
+    .catch((dbErr) => {
+      console.error(dbErr);
+      res.sendStatus(500);
+    })
+});
+
 
 module.exports = koalaRouter;
