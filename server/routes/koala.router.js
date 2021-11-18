@@ -52,7 +52,7 @@ router.post('/', (req, res) => {
     `;
     const sqlValues = [
       newKoala.name,
-      newKoala.age,  //not sure 
+      newKoala.age,
       newKoala.gender,
       newKoala.readyForTransfer,
       newKoala.notes
@@ -69,8 +69,70 @@ router.post('/', (req, res) => {
   });
 
 // PUT
+router.put('/:id', (req, res) => {
+  //log that incoming data
+  console.log(req.params);
+  console.log(req.body);
+  //pack it into variables
+  const KoalaID = req.params;
+  const koala = req.body;
+  //DO I NEED to save each req.body.X as a separate variable?
+
+  //prep the sql stuff for pool.query
+  const sqlText = `
+    UPDATE "koalas"
+      SET 
+        "NAME" = $1,
+        "AGE" = $2,
+        "GENDER" = $3,
+        "READY FOR TRANSFER" = $4,
+        "NOTES" = $5
+      WHERE
+        "id" = $6
+  `;
+  //Or can they be called as object values directly here?
+  const sqlValues = [
+    koala.name,
+    koala.age,
+    koala.gender,
+    koala.readyForTransfer,
+    koala.notes,
+    KoalaID
+  ];
+  
+  pool.query(sqlText, sqlValues)
+    .then((dbResult) => {
+      console.log(dbResult);
+      res.sendStatus(200);
+    })
+    .catch((dbErr) => {
+      console.error(dbErr);
+      res.sendStatus(500);
+    })
+});
+
+// DELETE - COMPLETED
+// I'm starting yay
+router.delete('/:id', (req, res) => {
+  console.log('DELETE /koalas/:id');
+  console.log('req.params:', req.params);
+  const koalaIdToDelete = req.params.id;
+  const sqlText = `
+    DELETE FROM "KoalasNew"
+      WHERE "id"=$1;
+  `;
+  const sqlValues = [koalaIdToDelete];
+
+  pool.query(sqlText, sqlValues)
+    .then((dbResult) => {
+      res.sendStatus(200);
+    })
+    .catch((dbErr) => {
+      console.error(dbErr);
+      res.sendStatus(500);
+    })
+});
 
 
-// DELETE
 
 module.exports = router;
