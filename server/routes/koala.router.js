@@ -33,19 +33,20 @@ router.post('/', (req, res) => {
     const newKoala = req.body;
     const sqlText = `
       INSERT INTO "KoalasNew"
-      ("name", "age", "gender", "readyForTransfer", "notes")
+      ("NAME", "AGE", "GENDER", "READY FOR TRANSFER", "NOTES")
       VALUES
         ($1, $2, $3, $4, $5);
     `;
-    // const sqlValues = [
-    //   newKoala.name,
-    //   newKoala.artist,  //not sure 
-    //   newKoala.track,
-    //   newKoala.published
-    // ];
+    const sqlValues = [
+      newKoala.name,
+      newKoala.age,  //not sure 
+      newKoala.gender,
+      newKoala.readyForTransfer,
+      newKoala.notes
+    ];
     pool.query(sqlText, sqlValues)
       .then((dbResult) => {
-        console.log('\tINSERT succeeded.');
+        console.log('INSERT succeeded.');
         res.sendStatus(201);
       })
       .catch((dbErr) => {

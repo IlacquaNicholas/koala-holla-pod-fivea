@@ -48,5 +48,7 @@ function saveKoala( newKoala ){
     $('#readyForTransferIn').val('')
     $('#notesIn').val('')
   getKoalas();
-  });
-}
+  }).catch((error) => {
+    console.log('bruh, fix the error!', error);
+  }); 
+};
